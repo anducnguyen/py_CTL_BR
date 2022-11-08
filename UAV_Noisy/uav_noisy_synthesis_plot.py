@@ -6,7 +6,7 @@ import scipy.io
 import latex
 import os 
 
-os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin/latex'
+# os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin/latex'
 n= 25
 m = 5
 alpha1 = 0.85
@@ -15,7 +15,7 @@ init_states_idx = 20
 pi_ini = np.zeros((n,1))
 pi_ini[init_states_idx] = 1
 
-notA = [0,1,2,3,4,5,7,8,9,10,14,15,16,17,19,20,21,22,24]
+notA = [0,1,2,3,4,6,7,8,9,10,14,15,16,17,19,20,21,22,24]
 B = [4]
 N = 8
 a = scipy.io.loadmat('T55_noisy.mat')
@@ -49,6 +49,13 @@ cns = [Z1@np.ones((m,1))==pi_ini,
        np.ones((1,n))@Z6 >= 0,
        np.ones((1,n))@Z7 >= 0,
        np.ones((1,n))@Z8 >= 0,
+       np.ones((1,n))@Z9 >= 0,
+       np.ones((1,n))@Z10 >= 0,
+       np.ones((1,n))@Z11 >= 0,
+       np.ones((1,n))@Z12 >= 0,
+       np.ones((1,n))@Z13 >= 0,
+       np.ones((1,n))@Z14 >= 0,
+       np.ones((1,n))@Z15 >= 0,
        np.ones((1,n))@Z1@np.ones((m,1)) ==1,
        np.ones((1,n))@Z2@np.ones((m,1)) ==1,
        np.ones((1,n))@Z3@np.ones((m,1)) ==1,
@@ -102,21 +109,21 @@ problem = cp.Problem(obj, cns)
 problem.solve(solver=cp.SCS, verbose=False, warm_start=True)
 pv = []
 
-pv.append(Z1.value@np.ones((m,1)))
-pv.append(Z2.value@np.ones((m,1)))
-pv.append(Z3.value@np.ones((m,1)))
-pv.append(Z4.value@np.ones((m,1)))
-pv.append(Z5.value@np.ones((m,1)))
-pv.append(Z6.value@np.ones((m,1)))
-pv.append(Z7.value@np.ones((m,1)))
-pv.append(Z8.value@np.ones((m,1)))
-pv.append(Z9.value@np.ones((m,1)))
-pv.append(Z10.value@np.ones((m,1)))
-pv.append(Z11.value@np.ones((m,1)))
-pv.append(Z12.value@np.ones((m,1)))
-pv.append(Z13.value@np.ones((m,1)))
-pv.append(Z14.value@np.ones((m,1)))
-pv.append(Z15.value@np.ones((m,1)))
+pv.append(Z1.value@np.ones((m,1))+2*np.absolute(np.min(Z1.value))+0.1)
+pv.append(Z2.value@np.ones((m,1))+2*np.absolute(np.min(Z2.value))+0.1)
+pv.append(Z3.value@np.ones((m,1))+2*np.absolute(np.min(Z3.value))+0.1)
+pv.append(Z4.value@np.ones((m,1))+2*np.absolute(np.min(Z4.value))+0.1)
+pv.append(Z5.value@np.ones((m,1))+2*np.absolute(np.min(Z5.value))+0.1)
+pv.append(Z6.value@np.ones((m,1))+2*np.absolute(np.min(Z6.value))+0.1)
+pv.append(Z7.value@np.ones((m,1))+2*np.absolute(np.min(Z7.value))+0.1)
+pv.append(Z8.value@np.ones((m,1))+2*np.absolute(np.min(Z8.value))+0.1)
+pv.append(Z9.value@np.ones((m,1))+2*np.absolute(np.min(Z9.value))+0.1)
+pv.append(Z10.value@np.ones((m,1))+2*np.absolute(np.min(Z10.value))+0.1)
+pv.append(Z11.value@np.ones((m,1))+2*np.absolute(np.min(Z11.value))+0.1)
+pv.append(Z12.value@np.ones((m,1))+2*np.absolute(np.min(Z12.value))+0.1)
+pv.append(Z13.value@np.ones((m,1))+2*np.absolute(np.min(Z13.value))+0.1)
+pv.append(Z14.value@np.ones((m,1))+2*np.absolute(np.min(Z14.value))+0.1)
+pv.append(Z15.value@np.ones((m,1))+2*np.absolute(np.min(Z15.value))+0.1)
 
 pv_array = np.array(pv)
 
@@ -148,11 +155,11 @@ ylabels = ['5','4','3','2','1']
 plt.setp(ax, xticks=np.arange(5), xticklabels=xlabels,
         yticks=np.arange(5), yticklabels=ylabels)
 
-a1 = ax[0,0].imshow(subplot1)
+ax[0,0].imshow(subplot1)
 ax[0,1].imshow(subplot2)
 ax[0,2].imshow(subplot3)
 ax[0,3].imshow(subplot4)
-ax[0,4].imshow(subplot5)
+a1 = ax[0,4].imshow(subplot5)
 ax[1,0].imshow(subplot6)
 ax[1,1].imshow(subplot7)
 ax[1,2].imshow(subplot8)

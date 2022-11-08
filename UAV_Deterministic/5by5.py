@@ -67,7 +67,7 @@ alpha2 = 0.8
 s = BRexist_algo.generate_sample(BR_Sample_num)
 for nnn in range(0,Iter_max-1):
   print("Evaluating", nnn +1 ,"/", Iter_max, "iteration")
-  Vert_BRexist_0 = []
+  Vert_BRexist_0 = []``
   for i in range(BR_Sample_num):
     # Vert_BRexist = [[0 for ii in range(BR_Sample_num)] for jj in range(numx*numy)]
     Chosen_sample = s[:,i]

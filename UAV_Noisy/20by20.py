@@ -56,7 +56,7 @@ start = timeit.default_timer()
 
 Iter_max = 100
 BR_Sample_num = 1000
-Nmax= 10
+Nmax= 40
 numx = numy = 20
 a = scipy.io.loadmat('T2020.mat')
 transition_mat = a['T']

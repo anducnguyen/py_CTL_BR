@@ -7,7 +7,7 @@ import latex
 from mpl_toolkits.axes_grid1 import ImageGrid
 import os 
 
-os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin/latex'
+# os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin/latex'
 n= 25
 m = 5
 alpha1 = 1
@@ -76,14 +76,30 @@ problem = cp.Problem(obj, cns)
 problem.solve(solver=cp.SCS, verbose=False, warm_start=True)
 pv = []
 
-pv.append(Z1.value@np.ones((m,1)))
-pv.append(Z2.value@np.ones((m,1)))
-pv.append(Z3.value@np.ones((m,1)))
-pv.append(Z4.value@np.ones((m,1)))
-pv.append(Z5.value@np.ones((m,1)))
-pv.append(Z6.value@np.ones((m,1)))
-pv.append(Z7.value@np.ones((m,1)))
-pv.append(Z8.value@np.ones((m,1)))
+# pv.append(Z1.value@np.ones((m,1)))
+# pv.append(Z2.value@np.ones((m,1)))
+# pv.append(Z3.value@np.ones((m,1)))
+# pv.append(Z4.value@np.ones((m,1)))
+# pv.append(Z5.value@np.ones((m,1)))
+# pv.append(Z6.value@np.ones((m,1)))
+# pv.append(Z7.value@np.ones((m,1)))
+# pv.append(Z8.value@np.ones((m,1)))
+
+
+pv.append(Z1.value@np.ones((m,1))+2*np.absolute(np.min(Z1.value))+0.1)
+pv.append(Z2.value@np.ones((m,1))+2*np.absolute(np.min(Z2.value))+0.1)
+# pv.append(np.absolute(Z2.value@np.ones((m,1))/np.sum(Z2.value@np.ones((m,1)))))
+pv.append(Z3.value@np.ones((m,1))+2*np.absolute(np.min(Z3.value))+0.1)
+pv.append(Z4.value@np.ones((m,1))+2*np.absolute(np.min(Z4.value))+0.1)
+pv.append(Z5.value@np.ones((m,1))+2*np.absolute(np.min(Z5.value))+0.1)
+pv.append(Z6.value@np.ones((m,1))+2*np.absolute(np.min(Z6.value))+0.1)
+pv.append(Z7.value@np.ones((m,1))+2*np.absolute(np.min(Z7.value))+0.1)
+pv.append(Z8.value@np.ones((m,1))+2*np.absolute(np.min(Z8.value))+0.1)
+print(pv[0])
+print(Z1.value@np.ones((m,1)))
+print(pv)
+
+
 
 pv_array = np.array(pv)
 
@@ -109,16 +125,16 @@ plt.setp(ax, xticks=np.arange(5), xticklabels=xlabels,
         yticks=np.arange(5), yticklabels=ylabels)
 
 
-a1 = ax[0,0].imshow(subplot1)
-ax[0,1].imshow(subplot2)
+ax[0,0].imshow(subplot1)
+a1 = ax[0,1].imshow(subplot2)
 ax[0,2].imshow(subplot3)
 ax[0,3].imshow(subplot4)
 ax[1,0].imshow(subplot5)
 ax[1,1].imshow(subplot6)
 ax[1,2].imshow(subplot7)
-ax[1,3].imshow(subplot8)
-# fig.colorbar(a1, ax=ax[:,3])
+ax[1,3].imshow(pv_array[7].reshape((5,5)))
 
+# fig.colorbar(a1, ax=ax[:,3])
 ax[0,0].set(xlabel=r'(a)$\pi_1$')
 ax[0,1].set(xlabel=r'(b) $\pi_2$')
 ax[0,2].set(xlabel=r'(c) $\pi_3$')
@@ -130,7 +146,7 @@ ax[1,3].set(xlabel=r'(h) $\pi_8$')
 
 fig.subplots_adjust(right=0.8)
 cbar_ax = fig.add_axes([0.85, 0.15, 0.01, 0.7])
-fig.colorbar(a1, cax=cbar_ax)
+fig.colorbar(a1,  cax=cbar_ax)
 plt.show()
 
 
